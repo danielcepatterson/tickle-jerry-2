@@ -6,6 +6,7 @@ declare namespace Cloudflare {
 		mainModule: typeof import("./src/worker/index");
 	}
 	interface Env {
+		AI: Ai;
 	}
 }
 interface Env extends Cloudflare.Env {}
