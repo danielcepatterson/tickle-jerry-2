@@ -1,7 +1,16 @@
 // src/App.tsx
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./App.css";
+
+function shuffle<T>(arr: T[]): T[] {
+	const a = [...arr];
+	for (let i = a.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[a[i], a[j]] = [a[j], a[i]];
+	}
+	return a;
+}
 
 // Verified Wikimedia Commons photos of Jerry Garcia
 const JERRY_PHOTOS = [
@@ -18,49 +27,36 @@ const JERRY_PHOTOS = [
 		caption: "Jerry Garcia & Mickey Hart at Red Rocks, 1987",
 	},
 	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/2/24/Jerry_Garcia%27s_Lightning_Bolt_guitar.jpg",
-		caption: "Jerry Garcia's iconic Lightning Bolt guitar",
-	},
-	{
 		src: "https://upload.wikimedia.org/wikipedia/commons/6/6b/Jerry_Garcia_by_Jay_Blakesberg.jpg",
 		caption: "Jerry Garcia — photo by Jay Blakesberg",
 	},
 	{
 		src: "https://upload.wikimedia.org/wikipedia/commons/0/04/Grateful_Dead_-_Jerry_Garcia_%28cropped%29.jpg",
-		caption: "Jerry Garcia — Grateful Dead (cropped)",
+		caption: "Jerry Garcia — Grateful Dead",
 	},
 	{
 		src: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Jerry_Garcia_at_Red_Rocks_taken_1987-08-11.jpg",
 		caption: "Jerry Garcia at Red Rocks, August 11, 1987",
 	},
-	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/0/0b/Jerry_Garcia%27s_Rosebud.jpg",
-		caption: "Jerry Garcia's 'Rosebud' guitar",
-	},
-	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/9/92/Detail_of_Jerry_Garcia_%27Rosebud%27_Guitar_-_Rock_%26_Roll_Hall_of_Fame_and_Museum_-_Cleveland_-_Ohio_-_USA_%2815304059750%29.jpg",
-		caption: "Jerry Garcia's 'Rosebud' guitar detail — Rock & Roll Hall of Fame",
-	},
-	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Detail_of_Jerry_Garcia_Top_Hat_Guitar_-_Rock_%26_Roll_Hall_of_Fame_and_Museum_-_Cleveland_-_Ohio_-_USA_%2815304055920%29.jpg",
-		caption: "Jerry Garcia's 'Top Hat' guitar detail — Rock & Roll Hall of Fame",
-	},
-	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/d/db/Jerry_Garcia%27s_%22Wolf%22_Guitar_%281973%2C_serial_no._D._Irwin_001%29_by_Doug_Irwin_-_Play_It_Loud._MET_%282019-05-13_19.36.59_by_Eden%2C_Janine_and_Jim%29.jpg",
-		caption: "Jerry Garcia's 'Wolf' guitar (1973) — MET Museum",
-	},
-	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/b/b4/Edgefield_Jerry_Garcia_statue.jpg",
-		caption: "Jerry Garcia statue at Edgefield",
-	},
 ];
 
-function getRandomPhoto() {
-	return JERRY_PHOTOS[Math.floor(Math.random() * JERRY_PHOTOS.length)];
-}
-
 function App() {
-	const [photo, setPhoto] = useState(getRandomPhoto);
+	const queue = useRef<typeof JERRY_PHOTOS>(shuffle(JERRY_PHOTOS));
+	const indexRef = useRef(0);
+	const [photo, setPhoto] = useState(queue.current[0]);
+
+	function nextPhoto() {
+		indexRef.current += 1;
+		if (indexRef.current >= queue.current.length) {
+			// Reshuffle for the next round, avoid showing same photo twice in a row
+			const last = queue.current[queue.current.length - 1];
+			let next = shuffle(JERRY_PHOTOS);
+			if (next[0] === last) next = [...next.slice(1), next[0]];
+			queue.current = next;
+			indexRef.current = 0;
+		}
+		setPhoto(queue.current[indexRef.current]);
+	}
 
 	return (
 		<div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", backgroundColor: "#1a1a1a", color: "#e8d8a0", fontFamily: "Georgia, serif", padding: "2rem" }}>
@@ -73,7 +69,7 @@ function App() {
 			/>
 			<p style={{ marginTop: "1rem", fontSize: "0.9rem", color: "#a89060", textAlign: "center" }}>{photo.caption}</p>
 			<button
-				onClick={() => setPhoto(getRandomPhoto())}
+				onClick={nextPhoto}
 				style={{ marginTop: "1.5rem", padding: "0.6rem 1.5rem", fontSize: "1rem", background: "#4a3a10", color: "#e8d8a0", border: "1px solid #a89060", borderRadius: "6px", cursor: "pointer" }}
 			>
 				🎸 Another Jerry
