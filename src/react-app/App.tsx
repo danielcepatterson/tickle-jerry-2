@@ -3,27 +3,23 @@
 import { useState } from "react";
 import "./App.css";
 
-// Wikimedia Commons photos of Jerry Garcia (public domain / freely licensed)
+// Verified Wikimedia Commons photos of Jerry Garcia
 const JERRY_PHOTOS = [
 	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Jerry_Garcia_at_Keystone_Berkeley%2C_September_1_1975%2C_II.jpg/800px-Jerry_Garcia_at_Keystone_Berkeley%2C_September_1_1975%2C_II.jpg",
-		caption: "Jerry Garcia at Keystone Berkeley, 1975",
+		src: "https://upload.wikimedia.org/wikipedia/commons/e/e8/Grateful_Dead_-_Jerry_Garcia.jpg",
+		caption: "Jerry Garcia — Grateful Dead",
 	},
 	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Jerry_Garcia_at_Keystone_Berkeley%2C_September_1%2C_1975.jpg/800px-Jerry_Garcia_at_Keystone_Berkeley%2C_September_1%2C_1975.jpg",
-		caption: "Jerry Garcia at Keystone Berkeley, 1975",
+		src: "https://upload.wikimedia.org/wikipedia/commons/c/c0/Jerry-Garcia-01cropped.jpg",
+		caption: "Jerry Garcia",
 	},
 	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Jerry_Garcia_1977.jpg/640px-Jerry_Garcia_1977.jpg",
-		caption: "Jerry Garcia, 1977",
+		src: "https://upload.wikimedia.org/wikipedia/commons/8/8b/Jerry-Mickey_at_Red_Rocks_taken_08-11-87.jpg",
+		caption: "Jerry Garcia & Mickey Hart at Red Rocks, 1987",
 	},
 	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Jerry_Garcia_1982.jpg/640px-Jerry_Garcia_1982.jpg",
-		caption: "Jerry Garcia, 1982",
-	},
-	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Jerry_Garcia_1989.jpg/640px-Jerry_Garcia_1989.jpg",
-		caption: "Jerry Garcia, 1989",
+		src: "https://upload.wikimedia.org/wikipedia/commons/2/24/Jerry_Garcia%27s_Lightning_Bolt_guitar.jpg",
+		caption: "Jerry Garcia's iconic Lightning Bolt guitar",
 	},
 ];
 
