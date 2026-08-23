@@ -27,7 +27,7 @@ app.post("/api/tickle", async (c) => {
 		}
 	);
 
-	return new Response(result as ReadableStream, {
+	return new Response(result as unknown as ReadableStream, {
 		headers: { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" },
 	});
 });
